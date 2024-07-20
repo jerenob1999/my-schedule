@@ -1,9 +1,25 @@
 import { create } from "zustand";
-import { Schedule } from "@/schemas/schedule.schema";
+import { Schedules, Schedule } from "@/schemas/schedule.schema";
+import { devtools } from "zustand/middleware";
 
-interface Store {
-  schedules: Schedule[];
+interface State {
+  schedules: Schedules;
+  selectedDay: Date;
 }
-export const useStore = create<Store>(() => ({
-  schedules: [],
-}));
+
+interface Action {
+  updateSelectedDay: (day: Date) => void;
+  addSchedule: (schedule: Schedule) => void;
+}
+
+export const useStore = create<State & Action>()(
+  devtools((set) => ({
+    schedules: [],
+    selectedDay: new Date(),
+    addSchedule: (schedule: Schedule) =>
+      set((state) => ({
+        schedules: [...state.schedules, schedule],
+      })),
+    updateSelectedDay: (day: Date) => set({ selectedDay: day }),
+  }))
+);
