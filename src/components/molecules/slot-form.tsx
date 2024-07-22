@@ -8,6 +8,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ScheduleSchema } from "@/schemas/schedule.schema";
 import { isMatchSchedule } from "@/lib/utils";
+import { useToast } from "@/hooks/use-toast";
 
 const defaultValues = {
   id_agenda: -1,
@@ -23,6 +24,7 @@ interface Props {
 }
 
 function SlotForm({ schedule, onChangePopover }: Props) {
+  const { toast } = useToast();
   const { addSchedule, schedules, removeSchedule, updateSchedule } = useStore(
     (store) => store
   );
@@ -30,11 +32,12 @@ function SlotForm({ schedule, onChangePopover }: Props) {
     register,
     handleSubmit,
     reset,
-    formState: { isDirty, dirtyFields },
+    formState: { dirtyFields },
   } = useForm<Schedule>({
     defaultValues: schedule ?? defaultValues,
     resolver: zodResolver(ScheduleSchema),
   });
+
   const scheduleIndex = schedules.findIndex((data) =>
     schedule ? isMatchSchedule(schedule, data) : false
   );
@@ -45,11 +48,30 @@ function SlotForm({ schedule, onChangePopover }: Props) {
       state.id_paciente = Math.floor(Math.random() * 10000);
     }
     if (!schedule) {
+      const checkSchedule = schedules.find((data) => {
+        return isMatchSchedule(state, data);
+      });
+
+      if (checkSchedule) {
+        return toast({
+          variant: "destructive",
+          title: "Whoops, something went wrong",
+          description: "There is already a slot created with the same date",
+        });
+      }
+
       addSchedule(state);
       onChangePopover(false);
+      toast({
+        title: "Shedule added successfully",
+        description: `Schedule added ${state.fecha} at ${state.hora}hs`,
+      });
     } else {
       updateSchedule(scheduleIndex, state);
-      reset();
+      return toast({
+        title: "Shedule updated",
+        description: "Schedule updated successfully",
+      });
     }
   };
 
@@ -94,7 +116,7 @@ function SlotForm({ schedule, onChangePopover }: Props) {
           <Label htmlFor="hour">Hour *</Label>
           <Input
             {...register("hora")}
-            step="1800"
+            step="900"
             type="time"
             required
             id="hour"
@@ -111,9 +133,7 @@ function SlotForm({ schedule, onChangePopover }: Props) {
           />
         </div>
         <div className="grid">
-          <Button type="submit" disabled={!isDirty}>
-            {schedule ? "Edit Slot" : "Create Slot"}{" "}
-          </Button>
+          <Button>{schedule ? "Edit Slot" : "Create Slot"} </Button>
         </div>
         {schedule ? (
           <>

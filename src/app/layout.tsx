@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Toaster } from "@/components/atoms/toaster";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -14,7 +14,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="h-screen">{children}</body>
+      <body className="h-screen">
+        <main className="flex h-full">
+          {children}
+          <Toaster />
+        </main>
+      </body>
     </html>
   );
 }

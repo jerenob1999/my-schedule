@@ -35,7 +35,6 @@ function DayTable() {
           <TableHead className="w-1/6 text-primary">
             {selectedDayToString}
           </TableHead>
-          <TableHead></TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
