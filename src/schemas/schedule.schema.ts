@@ -5,7 +5,10 @@ export const ScheduleSchema = z.object({
   id_paciente: z.number().nullable(),
   fecha: z.string(),
   hora: z.string(),
-  ape_nom: z.string().nullable(),
+  ape_nom: z
+    .string()
+    .nullable()
+    .transform((value) => (value === "" ? null : value)),
 });
 
 export const SchedulesSchema = z.array(ScheduleSchema);
