@@ -21,15 +21,15 @@ function SlotCard({ schedule }: Props) {
   };
 
   return (
-    <Popover>
+    <Popover onOpenChange={onChangePopover} open={open}>
       <PopoverTrigger asChild>
         <Card className="w-1/4 min-w-64 cursor-pointer transition-colors duration-300 bg-cyan-600 hover:bg-sky-800 ">
           <CardHeader>
             <CardTitle className="flex justify-between">
               <p
                 className={clsx(
-                  "text-lg font-semibold ",
-                  !schedule.ape_nom ? "text-lime-300" : "text-neutral-200"
+                  "text-base font-normal ",
+                  !schedule.ape_nom ? "text-lime-200" : "text-neutral-100"
                 )}
               >
                 {schedule.id_agenda === -1 ? "Available" : schedule.ape_nom}

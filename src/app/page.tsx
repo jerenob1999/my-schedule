@@ -1,9 +1,11 @@
-import { getSchedules } from "@/services/schedule.services";
+"use client";
+
+import useFetchSchedules from "@/hooks/use-fetch-schedules";
 import VerticalNavbar from "@/components/organisms/vertical-navbar";
 import DayTable from "@/components/organisms/day-table";
 
-export default async function Page() {
-  const schedules = await getSchedules();
+export default function Page() {
+  useFetchSchedules();
 
   return (
     <>

@@ -15,6 +15,7 @@ interface Action {
   addSchedule: (schedule: Schedule) => void;
   removeSchedule: (schedule: Schedule) => void;
   updateSchedule: (index: number, updatedSchedule: Schedule) => void;
+  setSchedules: (schedules: Schedules) => void;
 }
 
 export const useStore = create<State & Action>()(
