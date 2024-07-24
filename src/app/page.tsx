@@ -10,7 +10,7 @@ export default function Page() {
   return (
     <>
       <VerticalNavbar />
-      <section className="w-3/4">
+      <section className="w-full px-4">
         <DayTable />
       </section>
     </>

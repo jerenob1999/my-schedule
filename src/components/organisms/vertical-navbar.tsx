@@ -13,7 +13,7 @@ function VerticalNavbar() {
   };
 
   return (
-    <section className="container bg-neutral-50 p-6 w-1/4 h-full flex flex-col  max-w-80 min-w-72 m-0 shadow-lg border-0">
+    <section className="container items-center p-6 w-1/4 h-full flex flex-col  max-w-80 min-w-72 m-0 shadow-lg border-0">
       <Calendar selected={selectedDay} onDayClick={handleChangeSelectedDay} />
       <AddSlotPopover />
     </section>

@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { differenceInHours } from "date-fns";
 import { useStore } from "@/lib/store/store";
 import {
   Table,
@@ -11,46 +10,51 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/atoms/table";
-import { format } from "date-fns";
-import { getHoursArray } from "@/lib/utils";
+import {
+  getHoursArray,
+  getDayWithNumber,
+  checkHourRange,
+  sortByHour,
+} from "@/lib/utils";
 import SlotCard from "@/components/molecules/slot-card";
 
 function DayTable() {
   const { selectedDay, getfilteredSchedulesByDay } = useStore((store) => store);
-  const selectedDayToString = format(selectedDay, "yyyy-MM-dd");
+  const selectedDayToString = getDayWithNumber(selectedDay);
   const filteredSchedulesByDay = getfilteredSchedulesByDay();
   const rows = getHoursArray();
 
-  const checkRange = (hour1: string, hour2: string) => {
-    const sd1 = new Date(`2021-09-16T${hour1}:00`);
-    const d2 = new Date(`2021-09-16T${hour2}:00`);
-
-    return differenceInHours(sd1, d2) === 0 ? true : false;
-  };
-
   return (
-    <Table className="max-h-screen">
-      <TableHeader>
+    <Table className="max-h-screen max-w min-w-[768px]">
+      <TableHeader className="h-12">
         <TableRow>
-          <TableHead className="w-1/6 text-primary">
-            {selectedDayToString}
+          <TableHead className="w-1/6 text-lg text-primary sticky top-0 bg-white p-2">
+            <div className="bg-secondary w-20 flex items-center text-center justify-center h-20 p-2 rounded-full">
+              {selectedDayToString}
+            </div>
           </TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         {rows.map((hour) => {
           const filteredSchedulesByHour = filteredSchedulesByDay.filter(
-            (schedule) => checkRange(schedule.hora, hour)
+            (schedule) => checkHourRange(hour, schedule.hora)
           );
+          const sortedSchedules = sortByHour(filteredSchedulesByHour);
           return (
             <TableRow key={hour}>
-              <TableCell className="text-xl text-muted-foreground">
-                {hour}
-              </TableCell>
-              <TableCell className="flex">
-                {filteredSchedulesByHour.map((schedule) => (
-                  <SlotCard key={schedule.hora} schedule={schedule} />
-                ))}
+              <TableCell className="flex items-center">
+                <p className="text-xl text-muted-foreground w-20">{hour}</p>
+                <div className="grid xs:grid-cols-8 grid-cols-10 w-full">
+                  {sortedSchedules.map((schedule) => (
+                    <article
+                      className="xs:col-span-2 col-span-5 grid-item"
+                      key={schedule.hora}
+                    >
+                      <SlotCard schedule={schedule} />
+                    </article>
+                  ))}
+                </div>
               </TableCell>
             </TableRow>
           );

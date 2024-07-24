@@ -9,14 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ScheduleSchema } from "@/schemas/schedule.schema";
 import { isMatchSchedule } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
-
-const defaultValues = {
-  id_agenda: -1,
-  id_paciente: null,
-  fecha: "",
-  hora: "",
-  ape_nom: null,
-};
+import { format } from "date-fns";
 
 interface Props {
   schedule?: Schedule;
@@ -25,9 +18,23 @@ interface Props {
 
 function SlotForm({ schedule, onChangePopover }: Props) {
   const { toast } = useToast();
-  const { addSchedule, schedules, removeSchedule, updateSchedule } = useStore(
-    (store) => store
-  );
+
+  const {
+    addSchedule,
+    schedules,
+    removeSchedule,
+    updateSchedule,
+    selectedDay,
+  } = useStore((store) => store);
+
+  const defaultValues = {
+    id_agenda: -1,
+    id_paciente: null,
+    fecha: format(selectedDay, "yyyy-MM-dd"),
+    hora: "",
+    ape_nom: null,
+  };
+
   const {
     register,
     handleSubmit,
