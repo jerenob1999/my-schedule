@@ -18,7 +18,6 @@ interface Props {
 
 function SlotForm({ schedule, onChangePopover }: Props) {
   const { toast } = useToast();
-
   const {
     addSchedule,
     schedules,

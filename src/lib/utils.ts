@@ -32,13 +32,17 @@ export function isMatchSchedule(schedule1: Schedule, schedule2: Schedule) {
   return isSameScheduleHours && isSameScheduleDay ? true : false;
 }
 
+/**
+ * @param {string} baseHour - This is the base hour of the day without minutes.For example 13:00.
+ * @param {string} hourToVerify - This is the hour that has to be verified.
+ * @returns {boolean} - If hourToVerify is between the base hour and base hour + 59 minutes it returns true, else it returns false.
+ */
+
 export function checkHourRange(baseHour: string, hourToVerify: string) {
   if (baseHour === hourToVerify) return true;
 
   const hourToVerifyToDate = parse(hourToVerify, "HH:mm", new Date());
-
   const baseHourDate = parse(baseHour, "HH:mm", new Date());
-
   const hourEnd = addMinutes(baseHourDate, 59);
 
   if (
