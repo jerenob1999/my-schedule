@@ -18,7 +18,9 @@ export function AddSlotPopover() {
   return (
     <Popover onOpenChange={onChangePopover} open={open}>
       <PopoverTrigger asChild>
-        <Button variant="outline">New Slot</Button>
+        <Button className="w-full" variant="outline">
+          New Slot
+        </Button>
       </PopoverTrigger>
       <PopoverContent>
         <SlotForm onChangePopover={onChangePopover} />

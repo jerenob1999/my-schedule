@@ -30,11 +30,11 @@ function SlotCard({ schedule }: Props) {
                 className={clsx(
                   "text-base font-semibold ",
                   !schedule.ape_nom
-                    ? "text-primary border border-primary bg-white rounded-sm px-2"
+                    ? "text-green-700 border border-primary bg-white rounded-sm px-2"
                     : "text-neutral-100"
                 )}
               >
-                {schedule.id_agenda === -1 ? "AVAILABLE" : schedule.ape_nom}
+                {schedule.id_agenda === -1 ? "Available" : schedule.ape_nom}
               </p>
               <p className="text-xl font-semibold text-neutral-100">
                 {schedule.hora}
