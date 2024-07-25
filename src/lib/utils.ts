@@ -43,7 +43,7 @@ export function checkHourRange(baseHour: string, hourToVerify: string) {
 
   const hourToVerifyToDate = parse(hourToVerify, "HH:mm", new Date());
   const baseHourDate = parse(baseHour, "HH:mm", new Date());
-  const hourEnd = addMinutes(baseHourDate, 59);
+  const hourEnd = addMinutes(baseHourDate, 60);
 
   if (
     isAfter(hourToVerifyToDate, baseHourDate) &&
